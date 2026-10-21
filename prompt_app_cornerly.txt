@@ -1,0 +1,455 @@
+=====================================================================
+PROMPT MAESTRO PARA EL AGENTE IA - APP "CORNERLY" (iOS / FLUTTER)
+=====================================================================
+
+Eres un desarrollador senior de Flutter y diseñador de producto. Vas a
+construir una app iOS llamada "Cornerly". Ya tienes las indicaciones del
+lenguaje (Flutter/Dart) y de cómo entregar el .ipa, así que este documento
+cubre SOLO diseño, funcionamiento y datos. Sigue todo al pie de la letra.
+
+Se adjunta una imagen de referencia con 2 pantallas (Home y Statistic).
+Debes REPLICAR ese estilo visual tal cual: mismas formas, mismos colores,
+misma tipografía, mismos iconos, mismo espaciado y misma sensación limpia.
+
+
+---------------------------------------------------------------------
+0. REGLAS GENERALES (OBLIGATORIAS)
+---------------------------------------------------------------------
+- CERO datos de prueba, CERO datos falsos, CERO mocks, CERO placeholders
+  con números inventados. Todo dato mostrado viene de la API real o de lo
+  que el usuario ingresó. Si no hay datos, muestra un estado vacío bien
+  diseñado (ilustración/icono + texto), nunca números inventados.
+- Toda la interfaz en ESPAÑOL.
+- Solo modo claro (como la referencia). Orientación vertical.
+- La app funciona 100% local en el teléfono (sin backend propio, sin
+  cuentas, sin login). Todo se guarda en el dispositivo.
+- Maneja errores de red con elegancia (mensaje claro + botón reintentar).
+- Código limpio, organizado por features, con gestión de estado (Riverpod
+  o Bloc, tú eliges) y almacenamiento local persistente (Drift/SQLite o
+  Isar; para preferencias simples shared_preferences).
+
+
+---------------------------------------------------------------------
+1. NOMBRE E IDENTIDAD
+---------------------------------------------------------------------
+Nombre: CORNERLY
+Eslogan: "Analiza. Filtra. Gana corners."
+Nombre bajo el icono en iOS: "Cornerly"
+Bundle ID sugerido: com.cornerly.app
+
+
+---------------------------------------------------------------------
+2. LOGO E ICONO DE LA APP (créalo tú)
+---------------------------------------------------------------------
+Debes CREAR el logo tú mismo (en código/SVG y exportarlo a PNG), sin pedir
+nada al usuario. Especificaciones:
+
+CONCEPTO: la esquina de una cancha de fútbol (el "córner") con el arco de
+tiro de esquina y un balón, en el estilo verde lima de la app.
+
+DISEÑO DEL ICONO (1024x1024 px, sin transparencia, sin esquinas
+redondeadas: iOS las aplica solo):
+- Fondo: degradado diagonal suave de #A8E063 (arriba izquierda) a #6FC21B
+  (abajo derecha).
+- Elemento central: un cuarto de círculo (el arco de la esquina del campo)
+  dibujado con trazo blanco grueso (~56 px, puntas redondeadas), ubicado
+  en la esquina inferior izquierda del icono, con una línea vertical y una
+  horizontal blancas que forman el ángulo recto de la esquina de la cancha.
+- En la esquina, una banderita de córner pequeña en blanco con triángulo
+  verde oscuro #2E7D0B.
+- Un balón de fútbol minimalista (círculo blanco con pentágono central y
+  detalles en #111111) en el centro-derecha, con 2-3 líneas de movimiento
+  curvas blancas que indican que viene en trayectoria curva hacia la
+  esquina.
+- Sombra suave interior muy sutil para dar profundidad (sin exagerar).
+- Sin texto dentro del icono.
+
+ENTREGABLES DEL LOGO:
+- Icono 1024x1024 y todas las variantes requeridas por iOS (usa el paquete
+  flutter_launcher_icons para generarlas).
+- Versión del logo para splash: el símbolo sobre fondo blanco, con la
+  palabra "Cornerly" debajo en tipografía bold (misma fuente de la app),
+  color #111111, con la "C" inicial en verde #7ACB1F.
+- Genera el logo como SVG/código (CustomPainter o archivo SVG) para no
+  depender de herramientas externas.
+
+
+---------------------------------------------------------------------
+3. SISTEMA DE DISEÑO (replicar la imagen)
+---------------------------------------------------------------------
+COLORES (extraídos de la referencia):
+- Fondo de pantalla: #FFFFFF
+- Fondo de tarjetas secundarias: #FFFFFF con sombra muy suave
+  (blur 24, offset 0,6, opacidad 6%) sobre fondo de app #F6F7F4
+- Tarjeta principal destacada (Weekly Progress): verde pastel #C9F29B
+- Verde primario (botón central, barras activas, anillo): #7ACB1F
+- Verde intenso (barra seleccionada / hoy): #8BD52C
+- Verde claro de barras: #D5F2AE
+- Barras inactivas de fondo: rayado diagonal gris claro (#E6E6E6 sobre
+  blanco) -> replicar el patrón de líneas diagonales de la gráfica
+- Texto principal: #111111
+- Texto secundario: #8A8A8A
+- Chips de icono con fondo pastel: naranja #FFE8D6 (icono #F26B1D),
+  azul #DDF1FF (icono #1D9BF0), ámbar #FFF1CC (icono #F5A300),
+  verde #E3F7D0 (icono #4CAF1F)
+- Rojo (pérdida): #F25555 | Verde (ganada): #3FB618 | Pendiente: #F5A300
+
+TIPOGRAFÍA:
+- Fuente: Inter (empaquetada en assets, NO descargar en runtime, para que
+  funcione offline). Pesos: 400, 500, 600, 700, 800.
+- Títulos de pantalla: 17 px / 600, centrados.
+- Número grande tipo "1250 Kcal": 44-48 px / 700 con la unidad en 16 px /
+  500 color gris.
+- Títulos de tarjeta: 15-16 px / 600.
+- Texto secundario: 12-13 px / 400-500, gris.
+
+FORMAS Y ESPACIADO:
+- Radio de tarjetas: 24 px. Radio de chips/iconos: 14 px (cuadrados
+  redondeados) o círculo completo.
+- Padding de pantalla: 20 px. Separación entre tarjetas: 12 px.
+- Barra de navegación inferior blanca flotante con esquinas superiores
+  redondeadas (28 px), 5 items: Inicio, Progreso, [botón central],
+  Historial, Menú. El botón central es un círculo verde #7ACB1F de 64 px
+  que sobresale por encima de la barra, con un anillo blanco de 6 px y
+  sombra verde suave. Dentro lleva el icono de "escáner/análisis"
+  (cuatro esquinas con cuadrado). Este botón central abre/ejecuta
+  "Analizar partidos".
+- Item activo de la barra: icono relleno en #111111 + texto en negrita;
+  inactivos: icono outline gris #9A9A9A.
+
+ICONOS:
+- Usa un set de iconos outline redondeados, estilo idéntico al de la
+  referencia (trazo fino, puntas redondeadas): paquete phosphor_flutter
+  (variante "regular" para inactivo y "fill" para activo) o lucide.
+- Iconos necesarios: casa, gráfico de barras, escáner, estrella/trofeo,
+  cuadrícula (menú), calendario, campana, flecha atrás, tres puntos,
+  balón de fútbol, bandera de córner, billetera, flama, gota, reloj,
+  check, equis, candado, lápiz, basura, compartir.
+
+
+---------------------------------------------------------------------
+4. ANIMACIONES (todas fluidas, 60 fps)
+---------------------------------------------------------------------
+- Transiciones entre páginas: deslizamiento horizontal suave con
+  desvanecimiento (300 ms, curva easeOutCubic) y efecto "shared element"
+  (Hero) en tarjetas que abren detalle.
+- Cambio de pestaña en la barra inferior: el icono activo hace un pequeño
+  "pop" (escala 0.85 -> 1.1 -> 1.0) y el texto aparece con fade.
+- Botón central: pulso sutil continuo (escala 1.0 -> 1.06) cuando hay
+  análisis pendiente del día; al tocar, rota ligeramente y lanza el
+  proceso.
+- Anillo de progreso (tarjeta verde): se dibuja animado de 0 al valor
+  (800 ms) al entrar a la pantalla.
+- Barras de la gráfica: crecen desde abajo con efecto escalonado
+  (stagger 60 ms entre barras); la barra seleccionada se resalta con
+  animación de color y su porcentaje aparece con fade/slide.
+- Números (saldo, ganancias): conteo animado (count-up) al cargar.
+- Lista de partidos: cada tarjeta entra con fade + slide desde abajo con
+  retraso escalonado.
+- Proceso de análisis: pantalla/overlay con animación tipo escáner
+  (línea verde que barre) + texto de progreso real ("Obteniendo partidos
+  de hoy... Revisando cuotas 12/48... Buscando mercado de corners...").
+  La barra de progreso refleja el avance REAL, no un temporizador falso.
+- Selección de partido para la combinada: la tarjeta cambia a borde verde
+  con check animado; el "slip" (resumen de combinada) sube desde abajo
+  con animación de resorte (spring).
+- Resultado de apuesta (ganada/perdida): animación sutil (confeti verde
+  discreto en ganada; sacudida suave en perdida).
+- Haptic feedback ligero (HapticFeedback.selectionClick) en selecciones y
+  botones principales.
+- Skeleton loaders con shimmer mientras carga cualquier dato.
+
+
+---------------------------------------------------------------------
+5. FLUJO DE PANTALLAS
+---------------------------------------------------------------------
+
+5.1 SPLASH
+- Logo centrado con animación de escala + fade (1 s), fondo blanco.
+
+5.2 ONBOARDING / PREGUNTAS DE EXPERIENCIA (solo la primera vez)
+Pantallas tipo "paso a paso" con barra de progreso arriba y botón
+"Continuar" verde grande abajo. Preguntas:
+ 1. ¿Cómo te llamas? (se usa en "Buenos días, [nombre]")
+ 2. ¿Cuál es tu saldo total actual para apuestas? (campo numérico grande)
+ 3. ¿En qué moneda manejas tu saldo? (COP por defecto, con selector;
+    guardar símbolo y formato)
+ 4. ¿Qué experiencia tienes apostando? (Principiante / Intermedio /
+    Avanzado)
+ 5. ¿Qué porcentaje máximo de tu saldo quieres arriesgar por combinada?
+    (slider, se usa como ADVERTENCIA si el usuario se pasa, no como
+    bloqueo)
+ 6. ¿A qué hora quieres el recordatorio diario? (selector de hora,
+    por defecto 10:00 a.m.)
+ 7. Permiso de notificaciones (explicar para qué y solicitar).
+Todo se guarda localmente y es editable después en Menú.
+
+5.3 DASHBOARD / INICIO (replica la pantalla izquierda de la imagen)
+- Encabezado: foto/avatar circular (iniciales del usuario si no hay
+  foto), "Buenos días," + nombre, a la derecha botón calendario y botón
+  campana (en círculos blancos).
+- Tarjeta verde pastel grande: "Tu progreso semanal" con el anillo
+  (apuestas ganadas/total de la semana o racha de días con análisis) y
+  datos REALES calculados del historial.
+- Dos tarjetas pequeñas lado a lado (como "Step to walk" / "Drink Water"):
+    a) "Saldo actual" con icono de billetera (chip naranja).
+    b) "Ganancia del mes" con icono (chip azul).
+- Tarjeta de calendario semanal (como "August 2025"): flechas para
+  cambiar de semana, días L M X J V S D, el día de hoy en cápsula verde.
+  Al tocar un día se muestra el análisis y apuestas guardados de ese día.
+- Estado del análisis de hoy:
+    * Si NO se ha analizado hoy: tarjeta grande con botón verde
+      "Analizar partidos".
+    * Si YA se analizó hoy: botón deshabilitado con texto "Análisis de hoy
+      completado", y debajo la lista de tarjetas de partidos guardados.
+- Lista de partidos filtrados: una tarjeta por partido, scroll vertical
+  hacia abajo (detalle en sección 6).
+
+5.4 PANTALLA DE ANÁLISIS EN CURSO
+- Overlay a pantalla completa con animación de escáner y progreso real.
+- Al terminar, transición automática al dashboard con la lista.
+
+5.5 TARJETA DE PARTIDO (cada resultado del análisis)
+Cada partido es su propia tarjeta blanca (radio 24) con:
+- Fila superior: liga (con logo/escudo si la API lo da) + hora local del
+  partido.
+- Escudos y nombres de ambos equipos (local vs visitante).
+- Cuotas 1X2 reales: Local / Empate / Visitante (chips pastel).
+- Chip destacado verde con la recomendación:
+    * "Más de 7.5 corners" con su cuota real, o
+    * "Menos de 11.5 corners" con su cuota real.
+- Una línea corta que explique por qué pasó el filtro (ej.: "Local
+  favorito con cuota 1.30 < 1.38").
+- Botón circular "+" (como en Breakfast/Lunch de la referencia) para
+  agregar a la combinada; al agregar cambia a check verde.
+- Toque en la tarjeta -> pantalla de detalle del partido.
+
+5.6 SLIP / COMBINADA (bottom sheet)
+- Aparece al seleccionar al menos 1 partido. Muestra: número de
+  selecciones, lista compacta, cuota total (producto de todas las
+  cuotas de corners seleccionadas), campo "Monto a apostar" (con botones
+  rápidos 5% / 10% / 25% / 50% del saldo), "Ganancia potencial", y botón
+  verde "Confirmar combinada".
+- Validaciones: monto > 0, monto <= saldo disponible; advertencia amarilla
+  si supera el porcentaje de riesgo que el usuario configuró.
+- Al confirmar: se descuenta el monto del saldo (queda "en juego"), se
+  guarda la combinada como PENDIENTE y se programa el seguimiento.
+
+5.7 DETALLE DEL PARTIDO
+- Escudos, marcador (en vivo o final), estado, hora, liga.
+- Cuotas 1X2 y la cuota del mercado de corners elegido.
+- Si el partido está en juego o terminó: corners actuales/finales
+  (totales y por equipo) tomados de las estadísticas reales de la API.
+
+5.8 PROGRESO (replica la pantalla derecha "Statistic")
+- Encabezado: botón atrás, título "Estadísticas", botón tres puntos.
+- Tarjeta grande: "Ganancia/Pérdida neta" con número gigante (cuenta
+  animada) y la meta del usuario a la derecha (opcional, editable).
+- Gráfica de barras semanal L-D con el mismo estilo de la referencia:
+  barras con fondo rayado, barra seleccionada verde intensa con el
+  porcentaje de acierto de ese día encima. Datos reales del historial.
+- Tarjetas pequeñas en cuadrícula 2x2: "Acierto %" (mini barras),
+  "Combinadas" (ganadas/perdidas), "Cuota promedio", "Saldo" (mini
+  gráfica de línea del saldo en el tiempo, estilo la onda de BPM).
+- Selector de rango: Semana / Mes / Todo.
+
+5.9 HISTORIAL
+- Lista de combinadas (más recientes primero) con estado: Pendiente
+  (ámbar), Ganada (verde), Perdida (rojo), Anulada (gris).
+- Cada ítem muestra fecha, nº de selecciones, cuota total, monto,
+  ganancia/pérdida. Al tocar, se despliega el detalle de cada partido de
+  la combinada con su resultado individual (corners reales vs la línea).
+- Filtros por estado y por fecha. Estado vacío si no hay apuestas.
+
+5.10 MENÚ / AJUSTES
+- Perfil (nombre, avatar), Saldo (agregar fondos / retirar / corregir
+  saldo manualmente, cada movimiento queda registrado en un libro de
+  movimientos), Moneda, Hora del recordatorio, Porcentaje de riesgo,
+  Notificaciones on/off, Borrar todos los datos (con confirmación),
+  Acerca de y aviso de juego responsable.
+
+
+---------------------------------------------------------------------
+6. FUENTE DE DATOS: SOFASCORE (SIN DATOS DE PRUEBA)
+---------------------------------------------------------------------
+IMPORTANTE - PASO 1 OBLIGATORIO: INVESTIGAR ANTES DE PROGRAMAR
+Sofascore no publica una API oficial documentada; usa endpoints web
+públicos/no oficiales. ANTES de escribir la lógica de la app debes:
+ 1. Investigar y descubrir los endpoints reales vigentes (por ejemplo
+    revisando documentación comunitaria, repositorios en GitHub y haciendo
+    peticiones reales de prueba para validar la estructura de respuesta).
+    Referencia base conocida: https://api.sofascore.com/api/v1/ con rutas
+    como:
+      - Partidos programados por fecha de deporte:
+        /sport/football/scheduled-events/{YYYY-MM-DD}
+      - Cuotas de un partido: /event/{eventId}/odds/1/all
+        (y variantes /odds/1/featured)
+      - Estadísticas de un partido (incluye corners):
+        /event/{eventId}/statistics
+      - Detalle/resultado: /event/{eventId}
+    VALIDA cada ruta con una llamada real; si alguna cambió, encuentra la
+    vigente. No asumas, verifica.
+ 2. Documentar en un archivo docs/API_SOFASCORE.md los endpoints
+    confirmados, parámetros, headers necesarios y un ejemplo REAL de la
+    estructura de respuesta (sin inventar campos).
+ 3. Enviar cabeceras razonables (User-Agent de navegador móvil, Accept,
+    Referer https://www.sofascore.com/) y respetar límites: máximo
+    ~3-5 peticiones concurrentes, reintentos con backoff exponencial,
+    caché local de lo ya consultado, pequeñas pausas entre peticiones
+    para no ser bloqueado.
+ 4. Si hay bloqueo (403/429), mostrar mensaje claro al usuario y
+    permitir reintentar más tarde; NUNCA rellenar con datos falsos.
+ 5. Aislar todo en una capa "SofascoreRepository" para poder cambiar la
+    fuente fácilmente si Sofascore cambia sus rutas.
+ 6. Las cuotas pueden venir en formato fraccional (ej. "13/10"); conviértelas a
+    DECIMAL: decimal = 1 + (numerador / denominador). Valida siempre el
+    formato real que devuelva la API.
+
+CLAVE: el mercado "Full time" / "1X2" da la cuota de Local (1), Empate (X)
+y Visitante (2). El mercado de corners aparece en el apartado de cuotas
+del partido como mercado de "Corners" / "Total corners" con líneas
+(Más de / Menos de). Identifica por nombre del mercado y por la línea
+exacta (7.5 y 11.5). Investiga cómo se llama exactamente en el JSON real.
+
+
+---------------------------------------------------------------------
+7. LÓGICA DEL ANÁLISIS DIARIO (botón "Analizar partidos")
+---------------------------------------------------------------------
+Se ejecuta SOLO cuando el usuario toca "Analizar partidos", máximo UNA
+vez por día (según la fecha local del dispositivo). El resultado se
+guarda en base de datos local; al día siguiente el botón vuelve a estar
+disponible.
+
+ALGORITMO:
+ 1. Obtener todos los partidos de fútbol programados para HOY (zona
+    horaria del dispositivo; el usuario está en Colombia, America/Bogota
+    por defecto). Excluir partidos ya iniciados o terminados, cancelados
+    o aplazados.
+ 2. Para cada partido, obtener las cuotas 1X2 (Local, Empate, Visitante).
+    Si no tiene cuotas 1X2 -> descartar.
+ 3. Aplicar los DOS filtros (L = cuota del Local, V = cuota del
+    Visitante):
+
+    FILTRO A -> "MÁS DE 7.5 CORNERS"
+      Condición: L < 1.38
+      (La cuota del visitante NO importa.)
+      Apuesta recomendada: Más de 7.5 corners.
+
+    FILTRO B -> "MENOS DE 11.5 CORNERS"
+      Condición: L > 2.05  Y  V > L  Y  V < 3.30
+      (Es decir, el local no es tan favorito, el visitante es aún menos
+      favorito que el local, y el visitante tiene cuota menor a 3.30.)
+      Apuesta recomendada: Menos de 11.5 corners.
+
+    Un partido solo puede caer en uno de los dos filtros (son
+    excluyentes). Si no cumple ninguno -> descartar.
+ 4. Para los partidos que pasaron A o B, consultar el apartado de cuotas
+    y buscar el mercado de corners:
+      - Si NO existe el mercado de corners (o no existe la línea 7.5 en
+        el caso A / la línea 11.5 en el caso B) -> DESCARTAR el partido
+        (las casas de apuestas no ofrecen corners para ese partido).
+      - Si existe -> guardar la cuota real de "Más de 7.5" (caso A) o
+        "Menos de 11.5" (caso B).
+ 5. Ordenar la lista final por hora de inicio y guardarla en la base de
+    datos con: id del evento, equipos, escudos, liga, hora, cuotas 1X2,
+    filtro aplicado (A/B), selección (Más 7.5 / Menos 11.5), cuota de
+    corners, fecha del análisis.
+ 6. Mostrar el progreso real durante el proceso y, al final, mostrar la
+    lista completa en el dashboard, una tarjeta por partido, con scroll
+    hacia abajo. Si ningún partido cumple, mostrar un estado vacío claro:
+    "Hoy ningún partido cumple tus filtros".
+ 7. Poner los umbrales (1.38, 2.05, 3.30, 7.5, 11.5) como constantes en
+    un único archivo de configuración fácil de modificar.
+
+
+---------------------------------------------------------------------
+8. COMBINADAS, SALDO Y SEGUIMIENTO AUTOMÁTICO
+---------------------------------------------------------------------
+- El usuario selecciona N partidos (ej. 3) y define el monto. Cuota
+  total = producto de las cuotas de corners elegidas. Ganancia potencial
+  = monto x cuota total.
+- Al confirmar: saldo disponible = saldo - monto. Se registra un
+  movimiento en el libro de saldo (tipo "apuesta").
+- SEGUIMIENTO: la app consulta periódicamente el resultado de los partidos
+  pendientes:
+    * Al abrir la app, siempre revisa todas las combinadas pendientes.
+    * Además, usa tareas en segundo plano (paquete workmanager o
+      background_fetch) para revisar cada ~15-30 min cuando iOS lo permita
+      (reconoce que iOS limita las tareas en segundo plano; por eso la
+      revisión al abrir la app es obligatoria).
+    * Para cada partido finalizado, obtener los corners TOTALES reales
+      (local + visitante) de /statistics y evaluar:
+        - Selección "Más de 7.5": acierta si corners totales >= 8.
+        - Selección "Menos de 11.5": acierta si corners totales <= 11.
+- Una combinada es GANADA solo si TODAS sus selecciones aciertan;
+  PERDIDA si al menos una falla (puede marcarse perdida apenas una falle,
+  sin esperar a las demás). Si un partido se aplaza/cancela, esa
+  selección se anula (cuota 1.00) y la combinada se recalcula.
+- Al resolverse:
+    * GANADA: saldo += monto x cuota total (se devuelve el monto más la
+      ganancia). Registrar movimiento.
+    * PERDIDA: el monto ya estaba descontado; solo se registra el
+      resultado.
+    * Enviar notificación local: "¡Combinada ganada! +$X" o "Combinada
+      perdida", y mostrar la animación correspondiente al abrir la app.
+- Historial completo guardado en local (nunca se borra salvo que el
+  usuario lo pida).
+
+
+---------------------------------------------------------------------
+9. NOTIFICACIONES
+---------------------------------------------------------------------
+- Paquete flutter_local_notifications (programadas, locales).
+- Recordatorio diario a la hora que eligió el usuario: "⚽ Hora de
+  analizar los partidos de hoy en Cornerly". Si el usuario ya analizó ese
+  día, cancelar o no mostrar el recordatorio de ese día.
+- Notificación al resolverse una combinada (ganada/perdida).
+- Pedir permiso con una pantalla explicativa previa (no de golpe).
+
+
+---------------------------------------------------------------------
+10. MODELO DE DATOS LOCAL (sugerido)
+---------------------------------------------------------------------
+- UserProfile: nombre, moneda, saldo, experiencia, riesgoMaxPct,
+  horaRecordatorio.
+- DailyAnalysis: fecha (única por día), fechaHoraEjecucion, totalPartidos
+  revisados, totalFiltrados.
+- AnalyzedMatch: eventId, fecha, ligaNombre, ligaLogo, local, visitante,
+  escudos, horaInicio, cuotaLocal, cuotaEmpate, cuotaVisitante, filtro
+  (A/B), seleccion, cuotaCorners, estado.
+- Parlay (combinada): id, fechaCreacion, monto, cuotaTotal,
+  gananciaPotencial, estado (pendiente/ganada/perdida/anulada),
+  fechaResolucion.
+- ParlayLeg: parlayId, eventId, seleccion, cuota, cornersReales,
+  resultado (pendiente/acierto/fallo/anulado).
+- BalanceMovement: id, fecha, tipo (deposito/retiro/apuesta/ganancia/
+  ajuste), monto, saldoResultante.
+
+
+---------------------------------------------------------------------
+11. CALIDAD Y ENTREGA
+---------------------------------------------------------------------
+- Pantallas adaptables a todos los iPhone (SafeArea, Dynamic Island,
+  teclado), tamaños de texto accesibles.
+- Rendimiento: listas con ListView.builder, imágenes con caché
+  (cached_network_image), sin jank.
+- Pruebas unitarias OBLIGATORIAS de la lógica de filtros A y B, la
+  conversión de cuotas fraccionales a decimales, el cálculo de la cuota
+  total y la liquidación de combinadas (usa casos de prueba con valores
+  de borde: L = 1.38 exacto no pasa el filtro A; L = 2.05 exacto no pasa
+  el filtro B; V = 3.30 exacto no pasa el filtro B; corners = 8 acierta
+  Más 7.5; corners = 11 acierta Menos 11.5). Estas pruebas son de lógica,
+  no son datos de la app.
+- Incluir en Menú > Acerca de un aviso de juego responsable: "Cornerly es
+  una herramienta de análisis, no garantiza resultados. Apuesta solo lo
+  que puedas permitirte perder."
+- Cumplir las guías de App Store en lo posible (la app no procesa pagos ni
+  apuestas reales: solo analiza y lleva un registro personal).
+- Al terminar: entregar el .ipa según las instrucciones que ya tienes,
+  junto con un resumen de lo implementado, el archivo
+  docs/API_SOFASCORE.md y cualquier limitación encontrada (por ejemplo,
+  bloqueos de la API o límites de iOS en segundo plano).
+
+=====================================================================
+FIN DEL PROMPT
+=====================================================================
