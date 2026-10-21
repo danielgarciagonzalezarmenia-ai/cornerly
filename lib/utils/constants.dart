@@ -6,9 +6,9 @@ class AppConstants {
   static const String defaultTimezone = 'America/Bogota';
   static const TimeOfDay defaultReminderTime = TimeOfDay(hour: 10, minute: 0);
 
-  static const double filterA_maxLocalOdds = 1.38;
-  static const double filterB_minLocalOdds = 2.05;
-  static const double filterB_maxVisitorOdds = 3.30;
+  static const double filterAMaxLocalOdds = 1.38;
+  static const double filterBMinLocalOdds = 2.05;
+  static const double filterBMaxVisitorOdds = 3.30;
   static const double cornersLineA = 7.5;
   static const double cornersLineB = 11.5;
 

@@ -143,11 +143,11 @@ class SofascoreRepository {
         if (oddsLocal == 0.0) continue;
 
         String? filter;
-        if (oddsLocal < AppConstants.filterA_maxLocalOdds) {
+        if (oddsLocal < AppConstants.filterAMaxLocalOdds) {
           filter = 'A';
-        } else if (oddsLocal > AppConstants.filterB_minLocalOdds &&
+        } else if (oddsLocal > AppConstants.filterBMinLocalOdds &&
             oddsVisitor > oddsLocal &&
-            oddsVisitor < AppConstants.filterB_maxVisitorOdds) {
+            oddsVisitor < AppConstants.filterBMaxVisitorOdds) {
           filter = 'B';
         }
 

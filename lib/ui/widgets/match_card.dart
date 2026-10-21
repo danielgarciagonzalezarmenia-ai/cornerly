@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../models/data_models.dart';
 import '../../theme/app_theme.dart';
@@ -17,13 +16,14 @@ class MatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cornersOddsText = match.cornersOdds.toStringAsFixed(2);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 12, offset: const Offset(0, 2)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 12, offset: const Offset(0, 2)),
         ],
       ),
       child: Material(
@@ -99,7 +99,7 @@ class MatchCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryGreen.withOpacity(0.15),
+                        color: AppColors.primaryGreen.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Row(
@@ -116,7 +116,7 @@ class MatchCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'cuota ${match.cornersOdds.toStringAsFixed(2)}',
+                      'cuota $cornersOddsText',
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary),
                     ),
                   ],
@@ -126,7 +126,7 @@ class MatchCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        '${match.filter == 'A' ? 'Local favorito' : 'Local sin claro favorito'}',
+                        match.filter == 'A' ? 'Local favorito' : 'Local sin claro favorito',
                         style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
                       ),
                     ),

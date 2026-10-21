@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
-import '../../utils/constants.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -133,7 +132,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             'Permiso de notificaciones',
                             'Cornerly te enviará recordatorios y avisos de tus combinadas.',
                             _notifications,
-                            (v) => setState(() => _notifications = v!),
+                            (v) => setState(() => _notifications = v),
                           )),
                         ],
                       ),

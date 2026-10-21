@@ -4,10 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
-import '../../utils/constants.dart';
 import '../widgets/match_card.dart';
-import 'analysis_overlay_screen.dart';
-import 'slip_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -17,7 +14,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int _selectedIndex = 0;
   final _dateFormat = DateFormat('EEEE d MMMM', 'es');
 
   @override

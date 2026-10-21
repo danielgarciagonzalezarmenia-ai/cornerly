@@ -1,19 +1,12 @@
+import 'package:cornerly/app_router.dart';
 import 'package:cornerly/providers/app_provider.dart';
 import 'package:cornerly/services/database_service.dart';
 import 'package:cornerly/services/analysis_service.dart';
 import 'package:cornerly/services/notification_service.dart';
 import 'package:cornerly/services/prefs_service.dart';
 import 'package:cornerly/services/sofascore_repository.dart';
-import 'package:cornerly/theme/app_theme.dart';
-import 'package:cornerly/ui/screens/dashboard_screen.dart';
-import 'package:cornerly/ui/screens/historial_screen.dart';
-import 'package:cornerly/ui/screens/menu_screen.dart';
-import 'package:cornerly/ui/screens/onboarding_screen.dart';
-import 'package:cornerly/ui/screens/progress_screen.dart';
-import 'package:cornerly/ui/screens/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const CornerlyApp());
@@ -66,25 +59,6 @@ class _CornerlyAppState extends State<CornerlyApp> {
         home: const RouterScreen(),
         debugShowCheckedModeBanner: false,
       ),
-    );
-  }
-}
-
-class RouterScreen extends StatelessWidget {
-  const RouterScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<AppProvider>(
-      builder: (context, provider, child) {
-        if (provider.isLoading) {
-          return const SplashScreen();
-        }
-        if (!provider.hasOnboarded) {
-          return const OnboardingScreen();
-        }
-        return const DashboardScreen();
-      },
     );
   }
 }

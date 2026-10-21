@@ -116,9 +116,9 @@ class AnalysisService {
     await _db.updateMatchResult(matchId, status, totalCorners: totalCorners, localCorners: localCorners, visitorCorners: visitorCorners);
   }
 
-  static bool filterA(double localOdds) => localOdds < AppConstants.filterA_maxLocalOdds;
+  static bool filterA(double localOdds) => localOdds < AppConstants.filterAMaxLocalOdds;
   static bool filterB(double localOdds, double visitorOdds) =>
-      localOdds > AppConstants.filterB_minLocalOdds &&
+      localOdds > AppConstants.filterBMinLocalOdds &&
       visitorOdds > localOdds &&
-      visitorOdds < AppConstants.filterB_maxVisitorOdds;
+      visitorOdds < AppConstants.filterBMaxVisitorOdds;
 }

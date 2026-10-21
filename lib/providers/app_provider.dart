@@ -5,7 +5,6 @@ import '../services/database_service.dart';
 import '../services/analysis_service.dart';
 import '../services/notification_service.dart';
 import '../services/prefs_service.dart';
-import '../utils/constants.dart';
 
 class AppProvider extends ChangeNotifier {
   final DatabaseService _db;

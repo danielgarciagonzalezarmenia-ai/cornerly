@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/services/analysis_service.dart';
-import '../lib/services/sofascore_repository.dart';
-import '../lib/utils/constants.dart';
+import 'package:cornerly/services/analysis_service.dart';
+import 'package:cornerly/services/sofascore_repository.dart';
+import 'package:cornerly/utils/constants.dart';
 
 void main() {
   group('Filtro A - Más de 7.5 corners', () {
@@ -11,7 +11,7 @@ void main() {
     });
 
     test('L = 1.38 exacto NO pasa el filtro A (valor de borde)', () {
-      expect(AnalysisService.filterA(AppConstants.filterA_maxLocalOdds), isFalse);
+      expect(AnalysisService.filterA(AppConstants.filterAMaxLocalOdds), isFalse);
     });
 
     test('L > 1.38 no pasa el filtro A', () {
@@ -27,11 +27,11 @@ void main() {
     });
 
     test('L = 2.05 exacto NO pasa el filtro B (valor de borde)', () {
-      expect(AnalysisService.filterB(AppConstants.filterB_minLocalOdds, 2.50), isFalse);
+      expect(AnalysisService.filterB(AppConstants.filterBMinLocalOdds, 2.50), isFalse);
     });
 
     test('V = 3.30 exacto NO pasa el filtro B (valor de borde)', () {
-      expect(AnalysisService.filterB(2.10, AppConstants.filterB_maxVisitorOdds), isFalse);
+      expect(AnalysisService.filterB(2.10, AppConstants.filterBMaxVisitorOdds), isFalse);
     });
 
     test('V <= L no pasa el filtro B', () {
